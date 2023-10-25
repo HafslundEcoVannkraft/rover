@@ -1,4 +1,4 @@
-name: Build Rover release images
+name: Build and push to Docker Hub
 
 on:
   push:
