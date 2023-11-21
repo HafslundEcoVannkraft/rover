@@ -35,7 +35,7 @@ jobs:
 
       - name: Update config.cfg
         run: |
-          config_file="$GITHUB_WORKSPACE/.github/workflows/config/config.cfg"
+          config_file="$GITHUB_WORKSPACE/.github/config/config.cfg"
           sed -i 's#version_github_runner=[^\s\\]*#version_github_runner='$version_github_runner'#g' $config_file
           sed -i 's#version_rover=[^\s\\]*#version_rover='$version_rover'#g' $config_file
           echo "Updated config.cfg with latest versions:"
