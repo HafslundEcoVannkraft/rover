@@ -52,7 +52,9 @@ jobs:
           body: This PR updates the GH Actions runner and base image for aztfmod/rover used for creating Hafslund's rover
 
       - name: Send notification to Teams
-        if: ${{ steps.cpr.outputs.pull-request-number }}
+        if: |
+          steps.cpr.outputs.pull-request-number &&
+          github.event_name == 'schedule'
         run: |
           echo '{"text": "Please review PR ${{ steps.cpr.outputs.pull-request-url }}"}' > body.json
           curl --fail -H "Content-Type: application/json" --data-binary "@body.json" ${{ secrets.MS_TEAMS_AUTOMATIC_PRS_CHANNEL_WEBHOOK }}
