@@ -48,7 +48,7 @@ RUN echo "Installing Github self-hosted runner ${versionGithubRunner}..." && \
     /tmp/dotnet-install.sh -c 6.0 --runtime dotnet -Verbose && \
     #
     sudo apt-get update && \
-    sudo apt-get install -y jq && \
+    sudo apt-get install -y jq rsync && \
     #
     sudo pip3 uninstall -y yq && \
     LATEST_YQ_VERSION=$(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | jq -r ".tag_name") && \
