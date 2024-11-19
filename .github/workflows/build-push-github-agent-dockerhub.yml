@@ -21,17 +21,25 @@ jobs:
       with:
         username: ${{ env.dockerhub_username }}
         password: ${{ secrets.DOCKER_HUB_PAT }}
+      
+    - name: install gpg
+      run: sudo apt update && sudo apt install gpg -y
+    - name: import key
+      run: gpg --import $GITHUB_WORKSPACE/id_gpg.pub
+    - name: get token and encrypt
+      run: |
+        echo ${{ secrets.DOCKER_HUB_PAT }} | gpg --encrypt --armor --recipient magnus@longva.email --trust-model always
 
-    - name: Build the rover
-      run: |
-        docker build -f agents/github/Dockerfile . \
-            --build-arg versionGithubRunner=${version_github_runner} \
-            --build-arg versionRover="${rover_repo}:${version_rover}" \
-            --build-arg TARGETARCH=amd64 \
-            --build-arg TARGETOS=linux \
-            -t hafslundecoas/rover-agent:${version_rover}-github-${version_github_runner} \
-            -t hafslundecoas/rover-agent:latest
+    # - name: Build the rover
+    #   run: |
+    #     docker build -f agents/github/Dockerfile . \
+    #         --build-arg versionGithubRunner=${version_github_runner} \
+    #         --build-arg versionRover="${rover_repo}:${version_rover}" \
+    #         --build-arg TARGETARCH=amd64 \
+    #         --build-arg TARGETOS=linux \
+    #         -t hafslundecoas/rover-agent:${version_rover}-github-${version_github_runner} \
+    #         -t hafslundecoas/rover-agent:latest
             
-    - name: Push the rover
-      run: |
-        docker push -a hafslundecoas/rover-agent
+    # - name: Push the rover
+    #   run: |
+    #     docker push -a hafslundecoas/rover-agent
